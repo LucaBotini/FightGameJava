@@ -7,12 +7,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Player1 implements ActionListener {
     private Game game;
     private Image image;
+    private Timer runPLayer;
     private int x, y, dx, dy, height, width;
-    private boolean isVisible;
+    private boolean isVisible, inMovement = false;
+
 
     public Player1(Game game) {
         this.game = game;
@@ -29,8 +32,7 @@ public class Player1 implements ActionListener {
 
     public void load(){
         //definir imagem do player
-        String path = "src/images/players/player1.png";
-        ImageIcon reference = new ImageIcon(path);
+        ImageIcon reference = new ImageIcon("src/images/players/player1/player1.png");
         image = reference.getImage();
 
         height = image.getHeight(null);
@@ -61,8 +63,30 @@ public class Player1 implements ActionListener {
                 break;
             case KeyEvent.VK_D:
                 dx = 6;
-                System.out.println("d");
-                break;
+                if(!inMovement){
+                    // Lista de imagens para o loop
+                    String[] images = {
+                            "src/images/players/player1/player1run1.png",
+                            "src/images/players/player1/player1run2.png"
+                    };
+
+                    // Índice inicial
+                    AtomicInteger index = new AtomicInteger(0);
+
+                    // Timer para alternar as imagens
+                    runPLayer = new Timer(300, e -> {
+                        // Atualizar o índice de forma cíclica
+                        int currentIndex = index.getAndUpdate(i -> (i + 1) % images.length);
+
+                        // Atualizar a imagem
+                        ImageIcon reference = new ImageIcon(images[currentIndex]);
+                        image = reference.getImage();
+                    });
+
+                    runPLayer.start();
+                    inMovement = true;
+                }
+
         }
     }
     public void keyRelease(KeyEvent key) {
@@ -80,6 +104,12 @@ public class Player1 implements ActionListener {
                 break;
             case KeyEvent.VK_D:
                 dx = 0;
+                if (runPLayer != null && runPLayer.isRunning()) {
+                    runPLayer.stop();
+                    inMovement = false;
+                }
+                ImageIcon reference = new ImageIcon("src/images/players/player1/player1.png");
+                image = reference.getImage();
                 break;
         }
     }

@@ -13,6 +13,7 @@ import java.util.List;
 public class Game extends JPanel implements ActionListener {
     private Player1 player1;
     private Image bottom;
+    private Timer timer;
 
 
     public Game() {
@@ -26,6 +27,9 @@ public class Game extends JPanel implements ActionListener {
         player1.load();
 
         addKeyListener(new keyboardAdapter());
+
+        timer = new Timer(5, this);
+        timer.start();
     }
 
     public void paint(Graphics g) {
@@ -38,7 +42,8 @@ public class Game extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        player1.update();
+        repaint();
     }
 
     private class keyboardAdapter extends KeyAdapter {
