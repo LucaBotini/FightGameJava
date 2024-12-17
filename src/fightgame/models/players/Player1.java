@@ -42,9 +42,13 @@ public class Player1 implements ActionListener {
     }
 
     public void update() {
-        x += dx;
-        y += dy;
-        //fazendo a movimentação
+        int calculate;
+        calculate = x + dx;
+        if(calculate >= -26 && calculate <= 838 ){
+            x += dx;
+            y += dy;
+        }
+        //calculos de movimentação
     }
 
     public void keyPressed(KeyEvent key) {
