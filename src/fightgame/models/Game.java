@@ -18,7 +18,7 @@ public class Game extends JPanel implements ActionListener {
     private Player2 player2;
     private Image bottom, imageLifePlayer1, imageLifePlayer2;
     private Timer timer, killed;
-    private double lifePlayer1, lifePlayer2;
+    private double lifePlayer1, lifePlayer2, distance;
     private boolean inGame, attack, attack2;
 
 
@@ -30,11 +30,13 @@ public class Game extends JPanel implements ActionListener {
         ImageIcon reference = new ImageIcon(path); //recebe a imagem
         bottom = reference.getImage(); // variavel de referencia para imagem
         inGame = true;
+
         player1 = new Player1(this);
         String imageLife = "src/images/backgrounds/lifeplayer.png";
         ImageIcon referenceLife = new ImageIcon(imageLife); //recebe a imagem
         imageLifePlayer1 = referenceLife.getImage(); // variavel de referencia para imagem
         player1.load();
+
         player2 = new Player2(this);
         String imageLife2 = "src/images/backgrounds/lifeplayer2.png";
         ImageIcon referenceLife2 = new ImageIcon(imageLife2); //recebe a imagem
@@ -72,6 +74,7 @@ public class Game extends JPanel implements ActionListener {
         player2.update();
         checkCollisions();
         repaint();
+        distance = Math.abs(player1.getX() - player2.getX());
     }
 
     public void checkCollisions() {
@@ -188,5 +191,9 @@ public class Game extends JPanel implements ActionListener {
 
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
+    }
+
+    public double getDistance() {
+        return distance;
     }
 }

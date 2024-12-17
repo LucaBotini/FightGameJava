@@ -13,7 +13,7 @@ public class Player1 implements ActionListener {
     private Game game;
     private Image image;
     private Timer runPLayer;
-    private int x, y, dx, dy, height, width;
+    private int x, y, dx, dy, height, width, calculate;
     private double life;
     private boolean isVisible, inMovement = false, inAttack = false;
 
@@ -24,12 +24,10 @@ public class Player1 implements ActionListener {
         this.y = 350;
         this.life = 200;
         isVisible = true;
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
     }
 
     public void load() {
@@ -42,11 +40,13 @@ public class Player1 implements ActionListener {
     }
 
     public void update() {
-        int calculate;
         calculate = x + dx;
-        if(calculate >= -26 && calculate <= 838 ){
-            x += dx;
-            y += dy;
+        if (calculate >= -26 && calculate <= 838) {
+            if (dx > 0 && game.getDistance() >= 144) {
+                x += dx;
+            } else if (dx < 0) {
+                x += dx;
+            }
         }
         //calculos de movimentação
     }
@@ -96,7 +96,11 @@ public class Player1 implements ActionListener {
                 }
             case KeyEvent.VK_D:
                 if (game.isInGame()) {
-                    dx = 6;
+                    if (game.getDistance() >= 144) {
+                        dx = 6;
+                    } else {
+                        dx = 0;
+                    }
                     if (!inMovement) {
                         // Lista de imagens para o loop
                         String[] images = {
@@ -191,6 +195,10 @@ public class Player1 implements ActionListener {
 
     public int getY() {
         return y;
+    }
+
+    public int getCalculate() {
+        return calculate;
     }
 
     public Rectangle getBounds() {
