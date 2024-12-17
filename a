@@ -1,0 +1,17 @@
+[33mcommit f6dd8d48762dd59316770ec830a8e5dc97f9cdd0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Botinixx <devbotini@gmail.com>
+Date:   Mon Dec 16 19:27:26 2024 -0300
+
+    Added players with roles, added animations
+
+[33mcommit 60a7a456d88dc285bc08656c3aa0da0007b2804f[m
+Author: Botinixx <devbotini@gmail.com>
+Date:   Sat Dec 14 14:56:41 2024 -0300
+
+    movement for key: D, add
+
+[33mcommit a2ce75e52734eb2fdfff39de8fe83f6bfe057264[m
+Author: Botinixx <devbotini@gmail.com>
+Date:   Sat Dec 14 14:13:16 2024 -0300
+
+    start of background and player

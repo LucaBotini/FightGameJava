@@ -15,7 +15,7 @@ public class Player2 implements ActionListener {
     private Timer runPLayer;
     private int x, y, dx, dy, height, width;
     private double life;
-    private boolean isVisible, inMovement = false, inAttack = false;
+    private boolean isVisible, inMovement = false, inAttack2 = false;
 
 
     public Player2(Game game) {
@@ -52,70 +52,70 @@ public class Player2 implements ActionListener {
 
         switch (code) {
             case KeyEvent.VK_L:
-                if (!inAttack) {
-                    ImageIcon reference2 = new ImageIcon("src/images/players/player2/left/player2attack.png");
-                    image = reference2.getImage();
-                    inAttack = true;
+                if (game.isInGame()) {
+                    if (!inAttack2) {
+                        ImageIcon reference2 = new ImageIcon("src/images/players/player2/left/player2attack.png");
+                        image = reference2.getImage();
+                        inAttack2 = true;
+                    }
                 }
-                break;
-            case KeyEvent.VK_W:
-//                dy = -6;
-                break;
-            case KeyEvent.VK_S:
-//                dy = 6;
                 break;
             case KeyEvent.VK_LEFT:
-                dx = -6;
-                if (!inMovement) {
-                    // Lista de imagens para o loop
-                    String[] images = {
-                            "src/images/players/player2/left/player2runL.png",
-                            "src/images/players/player2/left/player2run2L.png",
-                            "src/images/players/player2/left/player2run3L.png",
-                    };
+                if (game.isInGame()) {
+                    dx = -6;
+                    if (!inMovement) {
+                        // Lista de imagens para o loop
+                        String[] images = {
+                                "src/images/players/player2/left/player2runL.png",
+                                "src/images/players/player2/left/player2run2L.png",
+                                "src/images/players/player2/left/player2run3L.png",
+                        };
 
-                    // Índice inicial
-                    AtomicInteger index = new AtomicInteger(0);
+                        // Índice inicial
+                        AtomicInteger index = new AtomicInteger(0);
 
-                    // Timer para alternar as imagens
-                    runPLayer = new Timer(200, e -> {
-                        // Atualizar o índice de forma cíclica
-                        int currentIndex = index.getAndUpdate(i -> (i + 1) % images.length);
+                        // Timer para alternar as imagens
+                        runPLayer = new Timer(200, e -> {
+                            // Atualizar o índice de forma cíclica
+                            int currentIndex = index.getAndUpdate(i -> (i + 1) % images.length);
 
-                        // Atualizar a imagem
-                        ImageIcon reference = new ImageIcon(images[currentIndex]);
-                        image = reference.getImage();
-                    });
+                            // Atualizar a imagem
+                            ImageIcon reference = new ImageIcon(images[currentIndex]);
+                            image = reference.getImage();
+                        });
 
-                    runPLayer.start();
-                    inMovement = true;
+                        runPLayer.start();
+                        inMovement = true;
+                    }
+                    break;
                 }
-                break;
             case KeyEvent.VK_RIGHT:
-                dx = 6;
-                if (!inMovement) {
-                    // Lista de imagens para o loop
-                    String[] images = {
-                            "src/images/players/player2/right/player2run.png",
-                            "src/images/players/player2/right/player2run2.png",
-                            "src/images/players/player2/right/player2run3.png",
-                    };
+                if (game.isInGame()) {
+                    dx = 6;
+                    if (!inMovement) {
+                        // Lista de imagens para o loop
+                        String[] images = {
+                                "src/images/players/player2/right/player2run.png",
+                                "src/images/players/player2/right/player2run2.png",
+                                "src/images/players/player2/right/player2run3.png",
+                        };
 
-                    // Índice inicial
-                    AtomicInteger index = new AtomicInteger(0);
+                        // Índice inicial
+                        AtomicInteger index = new AtomicInteger(0);
 
-                    // Timer para alternar as imagens
-                    runPLayer = new Timer(200, e -> {
-                        // Atualizar o índice de forma cíclica
-                        int currentIndex = index.getAndUpdate(i -> (i + 1) % images.length);
+                        // Timer para alternar as imagens
+                        runPLayer = new Timer(200, e -> {
+                            // Atualizar o índice de forma cíclica
+                            int currentIndex = index.getAndUpdate(i -> (i + 1) % images.length);
 
-                        // Atualizar a imagem
-                        ImageIcon reference = new ImageIcon(images[currentIndex]);
-                        image = reference.getImage();
-                    });
+                            // Atualizar a imagem
+                            ImageIcon reference = new ImageIcon(images[currentIndex]);
+                            image = reference.getImage();
+                        });
 
-                    runPLayer.start();
-                    inMovement = true;
+                        runPLayer.start();
+                        inMovement = true;
+                    }
                 }
         }
     }
@@ -125,34 +125,34 @@ public class Player2 implements ActionListener {
 
         switch (code) {
             case KeyEvent.VK_L:
-                inAttack = false;
-                ImageIcon reference2 = new ImageIcon("src/images/players/player2/left/player2L.png");
-                image = reference2.getImage();
-                break;
-            case KeyEvent.VK_W:
-//                dy = 0;
-                break;
-            case KeyEvent.VK_S:
-//                dy = 0;
-                break;
+                if (game.isInGame()) {
+                    inAttack2 = false;
+                    ImageIcon reference2 = new ImageIcon("src/images/players/player2/left/player2L.png");
+                    image = reference2.getImage();
+                    break;
+                }
             case KeyEvent.VK_LEFT:
-                dx = 0;
-                if (runPLayer != null && runPLayer.isRunning()) {
-                    runPLayer.stop();
-                    inMovement = false;
+                if (game.isInGame()) {
+                    dx = 0;
+                    if (runPLayer != null && runPLayer.isRunning()) {
+                        runPLayer.stop();
+                        inMovement = false;
+                    }
+                    ImageIcon reference3 = new ImageIcon("src/images/players/player2/left/player2L.png");
+                    image = reference3.getImage();
+                    break;
                 }
-                ImageIcon reference3 = new ImageIcon("src/images/players/player2/left/player2L.png");
-                image = reference3.getImage();
-                break;
             case KeyEvent.VK_RIGHT:
-                dx = 0;
-                if (runPLayer != null && runPLayer.isRunning()) {
-                    runPLayer.stop();
-                    inMovement = false;
+                if (game.isInGame()) {
+                    dx = 0;
+                    if (runPLayer != null && runPLayer.isRunning()) {
+                        runPLayer.stop();
+                        inMovement = false;
+                    }
+                    ImageIcon reference = new ImageIcon("src/images/players/player2/left/player2L.png");
+                    image = reference.getImage();
+                    break;
                 }
-                ImageIcon reference = new ImageIcon("src/images/players/player2/left/player2L.png");
-                image = reference.getImage();
-                break;
         }
     }
 
@@ -176,8 +176,8 @@ public class Player2 implements ActionListener {
         this.life = life;
     }
 
-    public boolean isInAttack() {
-        return inAttack;
+    public boolean isinAttack2() {
+        return inAttack2;
     }
 
     public int getX() {

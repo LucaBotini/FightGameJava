@@ -19,7 +19,7 @@ public class Game extends JPanel implements ActionListener {
     private Image bottom, imageLifePlayer1, imageLifePlayer2;
     private Timer timer, killed;
     private double lifePlayer1, lifePlayer2;
-    private boolean inGame, attack;
+    private boolean inGame, attack, attack2;
 
 
     public Game() {
@@ -31,6 +31,9 @@ public class Game extends JPanel implements ActionListener {
         bottom = reference.getImage(); // variavel de referencia para imagem
         inGame = true;
         player1 = new Player1(this);
+        String imageLife = "src/images/backgrounds/lifeplayer.png";
+        ImageIcon referenceLife = new ImageIcon(imageLife); //recebe a imagem
+        imageLifePlayer1 = referenceLife.getImage(); // variavel de referencia para imagem
         player1.load();
         player2 = new Player2(this);
         String imageLife2 = "src/images/backgrounds/lifeplayer2.png";
@@ -50,10 +53,12 @@ public class Game extends JPanel implements ActionListener {
         graphics.drawImage(player1.getImage(), player1.getX(), player1.getY(), this);
         graphics.drawImage(player2.getImage(), player2.getX(), player2.getY(), this);
         graphics.setFont(new Font("Arial", Font.BOLD, 20)); // Configura a fonte
-        graphics.setColor(Color.RED); // Configura a cor do texto
 
-        graphics.drawString(String.valueOf(lifePlayer1), 100, 80);
+        graphics.setColor(Color.BLACK);
+        graphics.drawImage(imageLifePlayer1, 60, 25, this);//colocando a imagem de vida2
+        graphics.drawString(String.valueOf(lifePlayer1), 97, 78);
 
+        graphics.setColor(Color.RED);
         graphics.drawImage(imageLifePlayer2, 700, 30, this);//colocando a imagem de vida2
         graphics.drawString(String.valueOf(lifePlayer2), 920, 80);
 
@@ -112,6 +117,48 @@ public class Game extends JPanel implements ActionListener {
                     // Atualiza a imagem do player2
                     ImageIcon killedImage = new ImageIcon(images[currentIndex]);
                     player2.setImage(killedImage.getImage());
+                });
+
+                killedTimer.start(); // Inicia a sequência de animação
+                inGame = false;
+            }
+        }
+        if (!player2.isinAttack2()) {
+            attack2 = false;
+        }
+        if (shapePlayer2.intersects(shapePlayer1)) {
+            if (lifePlayer1 > 0 && player2.isinAttack2() && !attack2) {
+                reference = new ImageIcon("src/images/players/player1/right/player1red.png");
+                player1.setImage(reference.getImage());
+                player1.setLife(lifePlayer1 - 20);
+                attack2 = true;
+                Timer timer = new Timer(150, e -> {
+                    ImageIcon normalImage = new ImageIcon("src/images/players/player1/right/player1.png");
+                    player1.setImage(normalImage.getImage());
+                });
+                timer.setRepeats(false); // Garante que o timer execute apenas uma vez
+                timer.start(); // Inicia o timer
+            } else if (lifePlayer1 <= 0 && inGame) {
+                String[] images = {
+                        "src/images/players/player1/right/player1killed.png",
+                        "src/images/players/player1/right/player1killed2.png",
+                };
+
+                // Índice inicial
+                AtomicInteger index = new AtomicInteger(0);
+
+                Timer killedTimer = new Timer(500, e -> {
+                    int currentIndex = index.getAndIncrement();
+
+                    // Verifica se já exibimos todas as imagens
+                    if (currentIndex >= images.length) {
+                        ((Timer) e.getSource()).stop(); // Para o timer após completar a sequência
+                        return;
+                    }
+
+                    // Atualiza a imagem do player2
+                    ImageIcon killedImage = new ImageIcon(images[currentIndex]);
+                    player1.setImage(killedImage.getImage());
                 });
 
                 killedTimer.start(); // Inicia a sequência de animação
